@@ -1,0 +1,17 @@
+
+
+section.container{
+    padding: 2rem;
+}
+
+
+p#formula{
+    text-align: center;   
+    font-size: 1.35rem;
+    color: red;
+}
+
+ol#list1{
+    padding: 1rem;
+}
+

@@ -1,0 +1,51 @@
+
+main{
+    width:100%;
+    display:flex;
+    flex-wrap: wrap;
+}
+
+section.left ,
+section.right{
+    padding:2rem;
+}
+
+
+/* section.right{
+    flex-grow: 1;
+} */
+
+section.right a.SRanipal{
+    color:blue;
+}
+
+/* section.left{
+    flex-grow: 1;
+} */
+
+
+section.left img#me{
+    /* width:20%;
+    height: 100%; */
+    width: 25vh;
+    height: 25vh;
+    border-radius: 50%;
+    margin: auto;
+}
+
+section.left a.myLinkdin img{
+    width: 3vh;
+    height: 3vh;
+}
+
+section.left a.myGit img{
+    width: 3vh;
+    height: 3vh;
+}
+
+section.left p#myName {
+    text-align: center;
+    font-weight: bold;
+    font-size: 120%;
+}
+

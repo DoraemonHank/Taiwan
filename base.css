@@ -1,0 +1,301 @@
+/*
+1.  
+    可以看到,標題header周圍有一圈留白(margin),
+    可以發現,header的margin是沒有設定的,
+    可是訪上一層的父層body,預設margin是8px, 
+    所以不管是header,nav還是section都無法貼齊網頁的最外框,
+    所以在css最上方,加上Uninversal Selectors(*)
+
+    *{
+        padding: 0;
+        margin:0;
+    }
+
+    基本上所有網頁最上方都會先做這個設定,
+
+2.
+    當你的header設定了padding: 1rem;
+    header{
+        background-color: #c4c4c4;
+        width: 100%;
+        padding: 1rem;
+    }
+    發現網頁下方出現了沒有意義的水平拉軸(horizontal scrollbar),
+    原因是因為,
+    假設header寬1000px,高200px,
+    此時padding為1rem,也就是16px,
+    上下左右都增加16px,
+    那寬就等於1000+32=1032px,
+    高等於200+32=232px,
+    網頁無法容納了,就出現水平拉軸(horizontal scrollbar),
+    如要避免,就要使用 ->box-sizing
+
+3.
+    box-sizing:
+    -content-box(default)
+    -border-box(√)
+     甚麼是content-box和border-box,
+     可參考1.png,
+     或是影片117,2:42
+
+    簡單講就是,
+    content-box : 會上下左右拓展出去,
+                  然後產生水平拉軸(horizontal scrollbar)
+    border-box  : 會keep the same width,
+                  在水平方向(寬)向內縮,
+                  在垂直方向(高)一樣向外拓展,
+                  如此就不會產生水平拉軸(horizontal scrollbar)
+    
+    開始設定,將原本的Uninversal Selectors增加box-sizing
+     *{
+        padding: 0;
+        margin:0;
+        box-sizing: border-box;
+      } 
+      horizontal scrollbar is gone!!
+
+4. 設定導覽列nav
+   把背景顏色改成自己喜歡的顏色,
+   然後再把它改成橫向排列,
+   display是不能加在nav裡的,
+   要加在ul,
+    nav ul{
+    display: flex;
+    }
+
+    接著設定其他東西:
+        nav ul li{
+            padding: 0.5rem 0.75rem;
+        }
+
+        nav ul li a{
+            color: white;
+            text-decoration: none;
+        }
+
+5. 導覽列nav 2種風格
+   (1) 游標只限定在文字
+        nav ul{
+            display: flex;
+            padding-left: 1rem ;
+            list-style-type: none;
+        }
+
+
+        nav ul li{
+            padding: 0.5rem 0.75rem;  
+        }
+
+        nav ul li a{
+            color: white;
+            text-decoration: none;
+            transition: all 1s ease;
+        }
+
+        nav ul li a:hover{
+            background-color:rgb(66, 66, 66);
+        }
+    (2) 游標在選取區域
+        nav ul{
+            display: flex;
+            padding-left: 1rem ;
+            list-style-type: none;
+        }
+
+        nav ul li{
+            display: flex; //上下的padding都沒出來,加上這行
+
+            //如果不用display: flex,這樣設定也可以
+            padding-top: 0.4rem;
+            padding-bottom: 0.4rem;
+        }
+
+        nav ul li a{
+            color: white;
+            text-decoration: none;
+            transition: all 1s ease;
+
+            padding: 0.5rem 0.75rem; //原本padding設定在nav ul li
+                                     //移到這裡,可是上下的padding都沒出來
+        }
+
+        nav ul li a:hover{
+            background-color:rgb(66, 66, 66);
+        } 
+        
+    當然也可配合使用transition(參考css筆記第19點)
+
+6. 在文字間加入icon
+   免費台灣icon素材 :https://www.twicon.page/
+   點Get Started,然後按Download,
+   下載之後解壓縮,
+   點開裡面List.html有說明,
+   按照裡面的說明,先在html裡連結twicon.css,
+   加入icon的方法,他是用<i>這個標籤,
+   使用<i>的方法,
+   參考:https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/i
+     
+   要調整大小的話,就用font-size,
+   EX:
+      i{
+        font-size: 3rem;
+    }  
+    當然前面也可指定要調整那裡的i,
+    EX:
+        指定調整header裡的i
+        header i{
+            font-size: 3rem;
+        }
+
+7. 美觀字型
+   到google fonts裡(https://fonts.google.com/),
+   languages選Chinese(Traditional),
+   選擇Noto Sans TC,
+   選擇Regular 400,
+   複製<link>內容到html裡(記得一定放要在.css設定上),
+   複製CSS rules to specify families,
+   貼到.css裡的Uninversal Selectors(*)裡
+   EX:
+     *{
+        padding: 0;
+        margin:0;
+        box-sizing: border-box;
+
+        //CSS rules to specify families
+        font-family: 'Noto Sans TC', sans-serif;
+        }
+
+8. 調整標題大小
+   我使用id Selectors,
+   參考css筆記第3點,
+   EX:
+     h1#headerTitle{
+        font-size: 3rem;
+     }
+
+9. 調整副標題粗度
+   調整font-weight(參考css筆記第9點),
+   標題預設都是bold,
+   把它改為normal,  
+   EX:
+     h3#headerText{
+        font-weight: normal;
+    }
+   
+10. 導覽列設定pro
+    指定到哪個連結,
+    導覽列應該要記錄當前的位置,
+    做法是,
+    先在html裡,第一個<li>裡的<a>加一個class="activate"
+    EX:
+     <a class="activate" href="#"> 首頁</a>,
+
+    回到.css裡,針對class activate設定color,
+    .activate{
+        background-color:rgb(66, 66, 66);
+    }
+
+    之後在另一個頁面,
+    比方說second.html裡,
+    換設定他為class="activate",
+    <a class="activate" href="#"> 農業改革</a>
+    css裡一樣
+     .activate{
+        background-color:rgb(66, 66, 66);
+    }
+
+11. 導覽列的RWD
+    來看看導覽列是在哪時候開始走樣的,
+    大概是在padding = 650x77的時候,
+    但經過嘗試,發現650的話,中間還是有個過渡變化的樣子,
+    所以把門檻提高到670,
+    670px效果最好,
+    @media screen and (max-width:670px){
+        //我希望可以在 nav ul裡,
+        //從原本橫的改成直的
+        nav ul{
+            flex-direction : column;
+        }
+    }
+*/
+
+
+/* 第一件事情先設定這個 */
+*{
+    padding: 0;
+    margin:0;
+    box-sizing: border-box;   
+}
+
+/* 美觀字型 */
+*{
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+header{
+    background-color: #c4c4c4;
+    width: 100%;
+    padding: 1rem;
+}
+
+
+/* 設定header裡icon的大小 */
+header i{
+    font-size: 3rem;
+}
+
+nav{
+    background-color:black;
+}
+
+nav ul{
+    display: flex;
+    padding-left: 1rem ;
+    list-style-type: none;
+}
+
+
+nav ul li{
+    display: flex;
+}
+
+nav ul li a{
+    color: rgb(66, 66, 66);
+    padding: 0.5rem 0.75rem;  
+    text-decoration: none;
+    transition: all 0.5s ease;
+
+    font-size: 1.25rem;
+}
+
+nav ul li a:hover{
+    color:white;  
+}
+
+/* 設定nav裡icon的大小 */
+nav i{
+    font-size: 2rem;
+}
+
+/* 調整標題大小 */
+h1#headerTitle{
+    font-size: 3rem;
+    
+}
+h3#headerText{
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+/* 導覽列設定pro */
+.activate{
+    color:white;
+    background-color:rgb(66, 66, 66);
+}
+
+/* 導覽列RWD */
+@media screen and (max-width:670px){
+    nav ul{
+        flex-direction: column;
+    }
+}
